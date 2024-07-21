@@ -63,6 +63,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
       - name: Create Release Issue
         run: |
+          commit_list=$(git log --oneline $latest_tag)
           gh issue create \
             --title "$TITLE" \
             --body "$BODY" \
@@ -74,7 +75,8 @@ jobs:
             Дата: ${{ env.CURRENT_DATE }}
             Автор релиза: ${{ github.actor }}
             Номер версии: ${{ github.run_number }}
-            Docker образ: [Ссылка](http://cr.yandex/crpq1kj1kt8f62udc6t3/app:${{ github.run_number }}_latest)
+            Commits:<br>$commit_list<br> \
+            Docker образ: http://cr.yandex/crpq1kj1kt8f62udc6t3/app:${{ github.run_number }}_latest)
       - name: Update changelog
         run: |
           git fetch --tags
